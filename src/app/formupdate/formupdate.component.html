@@ -1,0 +1,35 @@
+<form method="post" (ngSubmit)="updateInquiryData()">
+    <p>
+        <label for="id">ID:</label>
+        <input type="int" id="id" [(ngModel)]="id" name="id">
+    </p>
+    <p>
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="name" name="name" required>
+    </p>
+    <p>
+      <label for="inquiry">Inquiry Type:</label>
+      <input type="text" id="inquiry" [(ngModel)]="inquiry" name="inquiry" required>
+    </p>
+    <p>
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" required>
+    </p>
+    <p>
+      <label for="contact">Mobile No:</label>
+      <input type="tel" id="contact" [(ngModel)]="contact" name="contact" required>
+    </p>
+    <p>
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" [(ngModel)]="subject" name="subject" required>
+    </p>
+    <p>
+      <label for="comments">Comments:</label>
+      <textarea id="comments" [(ngModel)]="comments" name="comments" required></textarea>
+    </p>
+  
+    <button type="submit" id="sendone">OneClick</button><br><br>
+  
+  
+  </form>
+  

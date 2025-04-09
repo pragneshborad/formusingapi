@@ -1,0 +1,38 @@
+<form method="post" (ngSubmit)="getInquiriesData()">
+  <p>
+    <label for="id">Id:</label>
+    <input type="int" id="id" [(ngModel)]="id" name="id">
+  </p>
+  <p>
+    <button type="button" id="sendone" (click)="getInquiriesById()">ID</button><br><br>
+
+    <button type="submit" id="sendone">List</button><br><br>
+    
+</form>
+<div *ngIf="inquiries.length > 0">
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Inquiry</th>
+        <th>Email</th>
+        <th>Mobile No</th>
+        <th>Subject</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inquiry of inquiries">
+        <td>{{ inquiry.id }}</td>
+        <td>{{ inquiry.name }}</td>
+        <td>{{inquiry.inquiry_type}}</td>
+        <td>{{ inquiry.email_address }}</td>
+        <td>{{inquiry.contact_no}}</td>
+        <td>{{inquiry.subject}}</td>
+        <td>{{inquiry.comments}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
