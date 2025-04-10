@@ -21,16 +21,14 @@ export class MyService {
     };
   }
 
-  saveInquiryData(data: any): Observable<any> {
-    return this.httpClient.post(`${this.apiUrl}/save`, data, this.getHeaders());
+  saveInquiryFormData(formData: FormData): Observable<any> {
+    const headers = new HttpHeaders({ 'Authorization': `User ${this.token}` });
+    return this.httpClient.post(`${this.apiUrl}/save`, formData, { headers });
   }
 
-  getInquiriesData(): Observable<any> {
-    return this.httpClient.post(`${this.apiUrl}/list`, {}, this.getHeaders());
-  }
-
-  getInquiriesById(id: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.apiUrl}/inquiries/${id}`, this.getHeaders());
+  getInquiriesData(id: string = ''): Observable<any> {
+    const postData = id ? { id: id } : {};
+    return this.httpClient.post(`${this.apiUrl}/list`, postData, this.getHeaders());
   }
 
   updateInquiryData(data: any): Observable<any> {

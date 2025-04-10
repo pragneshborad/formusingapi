@@ -16,7 +16,7 @@ export class FormlistComponent {
 
 
   getInquiriesData() {
-    this.myService.getInquiriesData().subscribe(response => {
+    this.myService.getInquiriesData(this.id).subscribe((response) => {
       if (response.success == 1) {
         this.inquiries = response.data;
       } else {
@@ -24,19 +24,5 @@ export class FormlistComponent {
         alert(response.message);
       }
     });
-  }
-  getInquiriesById() {
-    if (this.id) {
-      this.myService.getInquiriesById(this.id).subscribe(response => {
-        if (response.success == 1) {
-          this.inquiries = response.data;
-        } else {
-          this.inquiries = [];
-          alert(response.message);
-        }
-      });
-    } else {
-      alert('please enter an ID');
-    }
   }
 }

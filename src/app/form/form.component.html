@@ -23,10 +23,12 @@
       <label for="comments">Comments:</label>
       <textarea id="comments" [(ngModel)]="comments" name="comments" required></textarea>
     </p>
-  
+    <p>
+      <label for="resume">Resume</label>
+      <input type="file" (change)="onFileSelected($event)" name="resume" class="resume" accept="application/pdf">
+    </p>
+
     <button type="submit" id="sendone">OneClick</button><br><br>
-  
-  
   </form>
   
   

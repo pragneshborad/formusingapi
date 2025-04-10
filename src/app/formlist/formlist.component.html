@@ -1,13 +1,10 @@
 <form method="post" (ngSubmit)="getInquiriesData()">
   <p>
     <label for="id">Id:</label>
-    <input type="int" id="id" [(ngModel)]="id" name="id">
+    <input type="number" id="id" [(ngModel)]="id" name="id">
   </p>
-  <p>
-    <button type="button" id="sendone" (click)="getInquiriesById()">ID</button><br><br>
-
     <button type="submit" id="sendone">List</button><br><br>
-    
+
 </form>
 <div *ngIf="inquiries.length > 0">
   <hr>
@@ -21,6 +18,7 @@
         <th>Mobile No</th>
         <th>Subject</th>
         <th>Comments</th>
+        <th>Resume</th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +30,7 @@
         <td>{{inquiry.contact_no}}</td>
         <td>{{inquiry.subject}}</td>
         <td>{{inquiry.comments}}</td>
+        <td>{{inquiry.resume}}</td>
       </tr>
     </tbody>
   </table>

@@ -14,7 +14,7 @@ export class FormupdateComponent {
   email: string = '';
   contact: string = '';
   subject: string = '';
-  comments: string = '';
+  comments: string = ''; 
   inquiries: any[] = [];
 
   constructor(private myService: MyService) { }

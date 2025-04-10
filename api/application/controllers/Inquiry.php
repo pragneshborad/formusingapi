@@ -63,65 +63,54 @@ class Inquiry extends CI_Controller {
             }
 
         } else if ($action == "save") {
-                // $config['upload_path']   = './assets/resumefiles'; 
-                // $config['allowed_types'] = 'gif|jpg|png|webp|svg|zip|pdf|jpeg';  
-                // $this->load->library('upload');
-                // $this->upload->initialize($config);
+                $config['upload_path']   = './assets/resumefiles/';
+                $config['allowed_types'] = 'gif';
+                
 
-            if (empty($post["name"]) || empty($post["inquiry_type"]) || empty($post["email_address"]) ||
-                empty($post["contact_no"]) || empty($post["subject"]) || empty($post["comments"])
-            ) {
-                $response['success'] = 0;
-                $response['message'] = "Field cannot be empty";
-                $response['data'] = $post;
-            } else {
-                $time = time();
+                $this->load->library('upload', $config);
 
-                $data = array(
-                    'name' => $post["name"],
-                    'inquiry_type' => $post["inquiry_type"],
-                    'email_address' => $post["email_address"],
-                    'contact_no' => $post["contact_no"],
-                    'subject' => $post["subject"],
-                    'comments' => $post["comments"],
-                    'created_at' => $time
-                );
+              if (empty($post["name"]) || empty($post["inquiry_type"]) || empty($post["email_address"]) ||
+                empty($post["contact_no"]) || empty($post["subject"]) || empty($post["comments"]) || !isset($_FILES['resume']))
 
-                $this->db->insert("inquiries", $data);
-                $last_id = $this->db->insert_id();
-
-                if ($this->db->affected_rows() > 0) {
-                    $response["success"] = 1;
-                    $response["message"] = "Inquiry has been sent successfully";
+                {
+                    
+                    $response['success'] = 0;
+                    $response['message'] = "Field cannot be empty";
+                    $response['data'] = $post;
                 } else {
-                    $response["success"] = 0;
-                    $response["message"] = "Something went wrong, try again";
+                  
+                    if (!$this->upload->do_upload('resume')) {
+                        $response['success'] = 0;
+                        $response['message'] = "file not selected";
+                    } else {
+                        $uploadData = $this->upload->data();
+                        $resume = $uploadData['file_name'];
+
+                        $time = time();
+                        $data = array(
+                            'name' => $post["name"],
+                            'inquiry_type' => $post["inquiry_type"],
+                            'email_address' => $post["email_address"],
+                            'contact_no' => $post["contact_no"],
+                            'subject' => $post["subject"],
+                            'comments' => $post["comments"],
+                            'created_at' => $time,
+                            'resume' => $resume
+                        );
+
+                        $this->db->insert("inquiries", $data);
+
+                        if ($this->db->affected_rows() > 0) {
+                            $response["success"] = 1;
+                            $response["message"] = "Inquiry and file saved successfully.";
+                        } else {
+                            $response["success"] = 0;
+                            $response["message"] = "Database error, please try again.";
+                        }
+                    }
                 }
-
-                    // $file_fields = ['resume', 'photo', 'adhar_card'];
-                    // $files_uploaded = [];
-
-                    // foreach ($file_fields as $field) {
-                    //     if ($this->upload->do_upload($field)) {
-                    //         $file_data = $this->upload->data();
-                    //         $files_uploaded[$field] = $file_data['file_name'];
-                    //     }
-                    // }
-                    // if (!empty($files_uploaded)) {
-                    //     $user_photo_data = [
-                    //         'user_id' => $last_id,
-                    //         'resume' => $files_uploaded['resume'] ?? null,
-                    //         'photo' => $files_uploaded['photo'] ?? null,
-                    //         'adhar_card' => $files_uploaded['adhar_card'] ?? null
-                    //     ];
-                    //     $this->db->insert('user_photos', $user_photo_data);
-                    // }
-                  $response["success"] = 1;
-                    $response["message"] = "Inquiry and files saved successfully.";
-            }
-
-        } else if ($action == "update") {
-            if (empty($post["id"])) {
+            } else if ($action == "update") {
+                if (empty($post["id"])) {
                 $response['success'] = 0;
                 $response['message'] = "ID is required";
             } else {
@@ -133,6 +122,8 @@ class Inquiry extends CI_Controller {
                     $response['success'] = 0;
                     $response['message'] = "This inquiry has been deleted and cannot be updated.";
                 } else {
+                    $time = time();
+
                     $data = array(
                         'name' => $post["name"],
                         'inquiry_type' => $post["inquiry_type"],
@@ -140,7 +131,9 @@ class Inquiry extends CI_Controller {
                         'contact_no' => !empty($post["contact_no"]) ? $post["contact_no"] : null,
                         'subject' => !empty($post["subject"]) ? $post["subject"] : null,
                         'comments' => !empty($post["comments"]) ? $post["comments"] : null,
+                        'updated_at' => $time
                     );
+
 
                     $this->db->where("id", $id);
                     $this->db->update("inquiries", $data);
