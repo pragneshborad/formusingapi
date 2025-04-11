@@ -46,6 +46,9 @@ class Inquiry extends CI_Controller {
         }
 
         if ($action == "list") {
+            $this->load->helper('url');
+            $config['upload_path']   = './assets/resumefiles/';   
+
             $and_condition = " and (is_deleted = 0 OR is_deleted != 1)";
 
             if (!empty($post["id"])) {
@@ -54,62 +57,83 @@ class Inquiry extends CI_Controller {
 
             $result = $this->db->query("SELECT * FROM inquiries WHERE 1=1 $and_condition")->result_array();
 
-            if ($result) {
-                $response['success'] = 1;
-                $response['data'] = $result;
+              if (!empty($result))  {
+              foreach ($result as &$row) {
+                if (!empty($row['resume'])) {
+
+                    $resume_file = $row['resume'];
+                    $file_path = FCPATH . 'assets/resumefiles/' . $resume_file;
+
+                if (file_exists($file_path)) {
+                    $row['resume_url'] = base_url('assets/resumefiles/' . $resume_file);
+                } else {
+                    $row['resume_url'] = null;
+                    log_message('error', 'Resume file not found: ' . $file_path);
+                }
             } else {
-                $response['success'] = 0;
+                $row['resume_url'] = null;
+            }
+        }
+            $response['success'] = 1;
+            $response['data'] = $result;
+            } else {
+                 $response['success'] = 0;
                 $response['message'] = "Inquiry not found";
             }
-
         } else if ($action == "save") {
-                $config['upload_path']   = './assets/resumefiles/';
-                $config['allowed_types'] = 'gif';
-                
+                    $time = time();
+                    $no = rand(10,100);
 
-                $this->load->library('upload', $config);
+                    $config['upload_path']   = './assets/resumefiles/';
+                    $config['allowed_types'] = 'pdf';
+                    $config['file_name']     = 'resume_' . $time .'_'. $no . '.pdf'; 
 
-              if (empty($post["name"]) || empty($post["inquiry_type"]) || empty($post["email_address"]) ||
-                empty($post["contact_no"]) || empty($post["subject"]) || empty($post["comments"]) || !isset($_FILES['resume']))
+                    $this->load->library('upload', $config);
 
-                {
-                    
-                    $response['success'] = 0;
-                    $response['message'] = "Field cannot be empty";
-                    $response['data'] = $post;
-                } else {
-                  
-                    if (!$this->upload->do_upload('resume')) {
+                    if (empty($post["name"]) || empty($post["inquiry_type"]) || empty($post["email_address"]) ||
+                        empty($post["contact_no"]) || empty($post["subject"]) || empty($post["comments"]) || !isset($_FILES['resume'])) {
+                        
                         $response['success'] = 0;
-                        $response['message'] = "file not selected";
+                        $response['message'] = "Field cannot be empty";
+                        $response['data'] = $post;
+
                     } else {
-                        $uploadData = $this->upload->data();
-                        $resume = $uploadData['file_name'];
+                        if (!$this->upload->do_upload('resume')) {
+                            $upload_error = $this->upload->display_errors('', '');
+                            $response['success'] = 0;
+                            if (strpos($upload_error, 'filetype') !== false) {
+                                $response['message'] = "Invalid file type. Only PDF files are allowed.";
+                            } else {
+                                $response['message'] = $upload_error ?: "File upload failed.";
+                            } 
 
-                        $time = time();
-                        $data = array(
-                            'name' => $post["name"],
-                            'inquiry_type' => $post["inquiry_type"],
-                            'email_address' => $post["email_address"],
-                            'contact_no' => $post["contact_no"],
-                            'subject' => $post["subject"],
-                            'comments' => $post["comments"],
-                            'created_at' => $time,
-                            'resume' => $resume
-                        );
-
-                        $this->db->insert("inquiries", $data);
-
-                        if ($this->db->affected_rows() > 0) {
-                            $response["success"] = 1;
-                            $response["message"] = "Inquiry and file saved successfully.";
                         } else {
-                            $response["success"] = 0;
-                            $response["message"] = "Database error, please try again.";
+                            $resume = 'resume_' . $time .'_' . $no . '.pdf';
+
+                            $data = array(
+                                'name' => $post["name"],
+                                'inquiry_type' => $post["inquiry_type"],
+                                'email_address' => $post["email_address"],
+                                'contact_no' => $post["contact_no"],
+                                'subject' => $post["subject"],
+                                'comments' => $post["comments"],
+                                'created_at' => $time,
+                                'resume' => $resume
+                            );
+
+                            $this->db->insert("inquiries", $data);
+
+                            if ($this->db->affected_rows() > 0) {
+                                $response["success"] = 1;
+                                $response["message"] = "Inquiry and file saved successfully.";
+                            } else {
+                                $response["success"] = 0;
+                                $response["message"] = "Database error, please try again.";
+                            }
                         }
                     }
-                }
-            } else if ($action == "update") {
+
+                }else if ($action == "update") {
                 if (empty($post["id"])) {
                 $response['success'] = 0;
                 $response['message'] = "ID is required";
