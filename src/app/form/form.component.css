@@ -1,0 +1,63 @@
+
+.width {
+    width: 30%;
+    margin: 0 auto;
+    background-color:rgb(68, 100, 204);
+}
+
+.padding_label {
+    padding: 20px 20px 0px 20px;
+}
+
+.border_input {
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    width: 95%;
+    margin-top: 10px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    align-items: center;
+    
+}
+.text_color {
+    color: white;
+    margin-right: 10px;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form_border {
+    border: 2px solid white;
+    border-radius: 15px;
+    box-shadow: inset;
+}
+.buttom_border{
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    width: 95%;
+    margin-top: 10px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+    background-color: pink;
+    color: rgb(68, 100, 204);
+    cursor: pointer;
+
+}
+::file-selector-button {
+    border: 1px solid pink;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background-color:pink;
+    color:rgb(68, 100, 204);
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+  }
+  .input.resume{
+    color:rgb(68, 100, 204);
+  }

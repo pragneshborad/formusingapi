@@ -1,36 +1,41 @@
-<form method="post" (ngSubmit)="saveInquiryData()" >
-    <p>
-      <label for="name">Name:</label>
-      <input type="text" id="name" [(ngModel)]="name" name="name" required>
-    </p>
-    <p>
-      <label for="inquiry">Inquiry Type:</label>
-      <input type="text" id="inquiry" [(ngModel)]="inquiry" name="inquiry" required>
-    </p>
-    <p>
-      <label for="email">Email Address:</label>
-      <input type="email" id="email" [(ngModel)]="email" name="email" required>
-    </p>
-    <p>
-      <label for="contact">Mobile No:</label>
-      <input type="tel" id="contact" [(ngModel)]="contact" name="contact" required>
-    </p>
-    <p>
-      <label for="subject">Subject:</label>
-      <input type="text" id="subject" [(ngModel)]="subject" name="subject" required>
-    </p>
-    <p>
-      <label for="comments">Comments:</label>
-      <textarea id="comments" [(ngModel)]="comments" name="comments" required></textarea>
-    </p>
-    <p>
-      <label for="resume">Resume</label>
-      <input type="file" (change)="onFileSelected($event)" name="resume" class="resume" accept="application/pdf">
-    </p>
-
-    <button type="submit" id="sendone">OneClick</button><br><br>
-  </form>
- 
-
-  
-  
+<div class="form_container">
+    <div class="width">
+        <div class="form_border">
+            <form method="post" (ngSubmit)="saveInquiryData()">
+                <div class="padding_label">
+                    <label class="text_color" for="name">Name:</label>
+                    <input class="border_input" type="text" id="name" [(ngModel)]="name" name="name" required placeholder="Enter your fullname">
+                </div>
+                <div class="padding_label">
+                    <label class="text_color" for="inquiry">Inquiry Type:</label>
+                    <input class="border_input" type="text" id="inquiry" [(ngModel)]="inquiry" name="inquiry" required placeholder="Enter your inquiry">
+                </div>
+                <div class="padding_label">
+                    <label class="text_color" for="email">Email Address:</label>
+                    <input class="border_input" type="email" id="email" [(ngModel)]="email" name="email" required placeholder="Enter your Email">
+                </div>
+                <div class="padding_label">
+                    <label class="text_color" class="text_color" for="contact">Mobile No:</label>
+                    <input class="border_input" type="tel" id="contact" [(ngModel)]="contact" name="contact" required placeholder="Enter your mo-number">
+                </div>
+                <div class="padding_label">
+                    <label class="text_color" for="subject">Subject:</label>
+                    <input class="border_input" type="text" id="subject" [(ngModel)]="subject" name="subject" required placeholder="Enter your Subject">
+                </div>
+                <div class="padding_label">
+                    <label class="text_color" for="comments">Comments:</label>
+                    <textarea class="border_input" id="comments" [(ngModel)]="comments" name="comments"
+                        required placeholder="Enter your comments"></textarea>
+                </div>
+                <div class="padding_label">
+                    <label class="text_color" for="resume">Resume:</label>
+                    <input class="border_input" type="file" (change)="onFileSelected($event)" name="resume"
+                        class="resume" accept="application/pdf" >
+                </div>
+                <div class="padding_label">
+                    <button class="buttom_border" type="submit" id="sendone">OneClick</button><br><br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
