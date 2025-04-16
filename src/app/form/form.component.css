@@ -8,6 +8,9 @@
 .padding_label {
     padding: 20px 20px 0px 20px;
 }
+.padding_button{
+    padding: 0px 20px;
+}
 
 .border_input {
     border: 1px solid rgb(255, 255, 255);
@@ -60,4 +63,12 @@
   }
   .input.resume{
     color:rgb(68, 100, 204);
+  }
+  .title_form p{
+    text-align: center;
+    font-size: 36px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:white;
+    font-weight: 700;
+    
   }

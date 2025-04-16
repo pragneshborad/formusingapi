@@ -82,46 +82,52 @@ class Inquiry extends CI_Controller {
             }
         } else if ($action == "save") {
                     $time = time();
-                    $no = rand(10,100);
+                    $no = rand(10, 100);
 
-                    $config['upload_path']   = './assets/resumefiles/';
+                    $config['upload_path'] = './assets/resumefiles/';
                     $config['allowed_types'] = 'pdf';
-                    $config['file_name']     = 'resume_' . $time .'_'. $no . '.pdf'; 
+                    $config['file_name'] = 'resume_' . $time . '_' . $no . '.pdf';
 
                     $this->load->library('upload', $config);
 
-                    if (empty($post["name"]) || empty($post["inquiry_type"]) || empty($post["email_address"]) ||
-                        empty($post["contact_no"]) || empty($post["subject"]) || empty($post["comments"]) || !isset($_FILES['resume'])) {
-                        
+                    $post = $this->input->post();
+                    $addresses = $this->input->post('address');
+
+                    if (empty($post["name"]) || empty($post["inquiry_type"]) || empty($post["email_address"]) || 
+                        empty($post["contact_no"]) || empty($post["subject"]) || empty($addresses) || !isset($_FILES['resume'])) {
                         $response['success'] = 0;
                         $response['message'] = "Field cannot be empty";
                         $response['data'] = $post;
-
                     } else {
                         if (!$this->upload->do_upload('resume')) {
                             $upload_error = $this->upload->display_errors('', '');
                             $response['success'] = 0;
-                            if (strpos($upload_error, 'filetype') !== false) {
-                                $response['message'] = "Invalid file type. Only PDF files are allowed.";
-                            } else {
-                                $response['message'] = $upload_error ?: "File upload failed.";
-                            } 
-
+                            $response['message'] = strpos($upload_error, 'filetype') !== false ? "Invalid file type. Only PDF files are allowed." : ($upload_error ?: "File upload failed.");
                         } else {
-                            $resume = 'resume_' . $time .'_' . $no . '.pdf';
-
-                            $data = array(
+                            $resume = 'resume_' . $time . '_' . $no . '.pdf';
+                            $data = [
                                 'name' => $post["name"],
                                 'inquiry_type' => $post["inquiry_type"],
                                 'email_address' => $post["email_address"],
                                 'contact_no' => $post["contact_no"],
                                 'subject' => $post["subject"],
-                                'comments' => $post["comments"],
                                 'created_at' => $time,
                                 'resume' => $resume
-                            );
+                            ];
 
-                            $this->db->insert("inquiries", $data);
+                            $this->db->insert('inquiries', $data);
+                        
+                            $user_id = $this->db->insert_id();
+
+                            if (!empty($addresses) && is_array($addresses)) {
+                                foreach ($addresses as $address_detail) {
+                                    $sql_address = [
+                                        'user_id' => $user_id,
+                                        'address' => $address_detail
+                                    ];
+                                    $this->db->insert('user_address', $sql_address);
+                                }
+                            }
 
                             if ($this->db->affected_rows() > 0) {
                                 $response["success"] = 1;
@@ -132,8 +138,7 @@ class Inquiry extends CI_Controller {
                             }
                         }
                     }
-
-                }else if ($action == "update") {
+                } else if ($action == "update") {
                 if (empty($post["id"])) {
                 $response['success'] = 0;
                 $response['message'] = "ID is required";
@@ -154,7 +159,7 @@ class Inquiry extends CI_Controller {
                         'email_address' => !empty($post["email_address"]) ? $post["email_address"] : null,
                         'contact_no' => !empty($post["contact_no"]) ? $post["contact_no"] : null,
                         'subject' => !empty($post["subject"]) ? $post["subject"] : null,
-                        'comments' => !empty($post["comments"]) ? $post["comments"] : null,
+                        'address' => !empty($post["Address"]) ? $post["Address"] : null,
                         'updated_at' => $time
                     );
 

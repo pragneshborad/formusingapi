@@ -4,10 +4,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormlistComponent } from './formlist/formlist.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { FormComponent } from './form/form.component';
 import { FormupdateComponent } from './formupdate/formupdate.component';
 import { FormdeleteComponent } from './formdelete/formdelete.component';
+  
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FormdeleteComponent } from './formdelete/formdelete.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
