@@ -1,57 +1,59 @@
 <div class="form_container">
     <div class="width">
-        <div class="form_border">
-            <div class="title_form">
-                <p>Inquiry Form</p>
-                <form method="post" (ngSubmit)="saveInquiryData()" >
-                    <div class="padding_label">
-                        <label class="text_color" for="name">Name:</label>
-                        <input class="border_input" type="text" id="name" [(ngModel)]="name" name="name" required
-                            placeholder="Enter your Fullname">
-                    </div>
-                    <div class="padding_label">
-                        <label class="text_color" for="inquiry">Inquiry Type:</label>
-                        <input class="border_input" type="text" id="inquiry" [(ngModel)]="inquiry" name="inquiry"
-                            required placeholder="Enter your Inquiry">
-                    </div>
-                    <div class="padding_label">
-                        <label class="text_color" for="email">Email Address:</label>
-                        <input class="border_input" type="email" id="email" [(ngModel)]="email" name="email" required
-                            placeholder="Enter your Email">
-                    </div>
-                    <div class="padding_label">
-                        <label class="text_color" class="text_color" for="contact">Mobile No:</label>
-                        <input class="border_input" type="tel" id="contact" [(ngModel)]="contact" name="contact"
-                            required placeholder="Enter your mo-number">
-                    </div>
-                    <div class="padding_label">
-                        <label class="text_color" for="subject">Subject:</label>
-                        <input class="border_input" type="text" id="subject" [(ngModel)]="subject" name="subject"
-                            required placeholder="Enter your Subject">
-                    </div>
-
-
-                    <div class="padding_label" *ngFor="let addr of addresses; let i = index">
-                        <label class="text_color" for="address">Address {{ i + 1 }}:</label>
-                        <textarea class="border_input" [(ngModel)]="addresses[i]" name="address[]" placeholder="Enter Your Address"></textarea><br>
-                  
-                       
-                        <button type="button" (click)="removeAddressField(i)" *ngIf="addresses.length > 1">Remove
-                            Address</button><br><br>
-                    </div>
-                    <div class="padding_button">
-                    <input type="button" id="addmore" (click)="addAddressField()" value="Add more Address">
-                    </div>
-                    <div class="padding_label">
-                        <label class="text_color" for="resume">Resume:</label>
-                        <input class="border_input" type="file" (change)="onFileSelected($event)" name="resume"
-                            class="resume" accept="application/pdf">
-                    </div>
-                    <div class="padding_label">
-                        <button class="buttom_border" type="submit" id="sendone">OneClick</button><br><br>
-                    </div>
-                </form>
+      <div class="form_border">
+        <div class="title_form">
+          <p>Inquiry Form</p>
+          <form method="post" (ngSubmit)="saveInquiryData()">
+            <div class="padding_label">
+              <label class="text_color" for="name">Name:</label>
+              <input class="border_input" type="text" id="name" [(ngModel)]="name" name="name" required placeholder="Enter your Fullname">
             </div>
+            <div class="padding_label">
+              <label class="text_color" for="inquiry">Inquiry Type:</label>
+              <input class="border_input" type="text" id="inquiry" [(ngModel)]="inquiry" name="inquiry" required placeholder="Enter your Inquiry">
+            </div>
+            <div class="padding_label">
+              <label class="text_color" for="email">Email Address:</label>
+              <input class="border_input" type="email" id="email" [(ngModel)]="email" name="email" required placeholder="Enter your Email">
+            </div>
+            <div class="padding_label">
+              <label class="text_color" for="contact">Mobile No:</label>
+              <input class="border_input" type="tel" id="contact" [(ngModel)]="contact" name="contact" required placeholder="Enter your mo-number">
+            </div>
+            <div class="padding_label">
+              <label class="text_color" for="subject">Subject:</label>
+              <input class="border_input" type="text" id="subject" [(ngModel)]="subject" name="subject" required placeholder="Enter your Subject">
+            </div>
+  
+            <div class="padding_label" *ngFor="let data of addresses; let i = index">
+              <label class="text_color" for="address">Address {{ i + 1 }}:</label>
+              <textarea class="border_input" id="addr_{{i}}" [(ngModel)]="data.addr" name="addr_{{i}}" placeholder="Enter Your Address" required></textarea><br>
+              <button type="button" (click)="removeAddressField(i)" *ngIf="addresses.length > 1">Remove Address</button><br><br>
+            </div>
+  
+            <div class="padding_button">
+              <input type="button" id="addmore" (click)="addAddressField()" value="Add more Address">
+            </div>
+  
+            <div class="padding_label">
+              <label class="text_color" for="resume">Resume:</label>
+              <input class="border_input" type="file" (change)="onFileSelected($event)" name="resume" class="resume" accept="application/pdf" required>
+            </div>
+  
+          
+            <div class="padding_label">
+                <label class="text_color">{{ captchaQuestion }}</label>
+                <input class="border_input" type="number" [(ngModel)]="userAnswer" name="userAnswer" required placeholder="Enter the answer" />
+                <button type="button" class="refresh-button" (click)="generateCaptcha()">Refresh</button>
+              </div>
+              
+  
+            <div class="padding_label">
+              <button class="buttom_border" type="submit" id="sendone">Submit</button><br><br>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+  

@@ -81,6 +81,8 @@ class Inquiry extends CI_Controller {
                 $response['message'] = "Inquiry not found";
             }
         } else if ($action == "save") {
+
+                    
                     $time = time();
                     $no = rand(10, 100);
 

@@ -76,16 +76,16 @@ class email_model extends CI_Model {
 	    $config['protocol'] = "smtp";
 	    $config['smtp_host'] = "ssl://smtp.gmail.com";
 	    $config['smtp_port'] = 465;
-	    // $config['smtp_user'] = "pragnesh@gmail.com";
-	    // $config['smtp_pass'] = "nrvxmoepgyvbhjdo";
+	    $config['smtp_user'] = "pragnesh@gmail.com";
+	    $config['smtp_pass'] = "nrvxmoepgyvbhjdo";
 
 	    // if (ISINPRODUCTION == "false") {
 	    // 	// client
-	    // 	$config['smtp_user'] = "circuitnoderajkot@gmail.com";
-	    // 	$config['smtp_pass'] = "kevkywqblaaqdnej";
+	    // 	$config['smtp_user'] = "";
+	    // 	$config['smtp_pass'] = "";
 	    // } else {
-	    // 	$config['smtp_user'] = "purvid@saptez.com";
-	    // 	$config['smtp_pass'] = "mrdcfygyclfnaeki";
+	    // 	$config['smtp_user'] = "";
+	    // 	$config['smtp_pass'] = "";
 	    // }
 
 	    $config['smtp_debug'] = 4;

@@ -70,5 +70,15 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:white;
     font-weight: 700;
-    
   }
+  .refresh-button {
+    background-color: pink;
+    color: rgb(68, 100, 204);
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
